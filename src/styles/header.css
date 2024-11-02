@@ -1,3 +1,4 @@
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -5,21 +6,26 @@
     padding: 10px 20px;
     background-color: #333;
     color: #fff;
-  }
-  
-  .header__left,
-  .header__right {
-    width: 50px;
-    text-align: center;
+    font-size: 1.2em;
   }
   
   .header__title {
     font-size: 1.5em;
-    text-align: center;
-    flex-grow: 1;
+    font-weight: bold;
   }
   
-  .header__profile-icon,
+  .header__left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header__profile-icon {
+    font-size: 1.5em;
+    margin-right: 10px;
+  }
+  
   .header__menu-icon {
     font-size: 1.5em;
+    cursor: pointer;
   }
+  

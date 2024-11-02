@@ -1,0 +1,52 @@
+.app {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 20%;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+  }
+  
+  .sidebar h2 {
+    text-align: center;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar li {
+    margin-bottom: 10px;
+  }
+  
+  .sidebar .selected {
+    background-color: #ff6666;
+  }
+  
+  .shopping-list {
+    width: 80%;
+    padding: 20px;
+    background-color: #f0f0f0;
+  }
+  
+  .shopping-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background: white;
+    margin-bottom: 5px;
+  }
+  
+  .bought {
+    text-decoration: line-through;
+  }
+  
+  .add-list, .new-member {
+    width: 100%;
+    margin-top: 10px;
+  }
+  

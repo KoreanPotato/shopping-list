@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../styles/Sidebar.module.css'
+import '../styles/Sidebar.module.css'
 
 function Sidebar({ lists, selectedList, setSelectedList, currentUser, onAddMember, onRemoveMember, onRenameList }) {
   const [newMember, setNewMember] = useState('');

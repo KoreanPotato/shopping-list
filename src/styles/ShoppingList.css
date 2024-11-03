@@ -1,25 +1,26 @@
-
 .shopping-list {
-  width: 100%;
+  flex: 1;
   padding: 20px;
-  background-color: #2b2b2b;
-  color: #ffffff;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  background-color: #2c2c2c;
+  color: #fff;
+}
+
+.shopping-list h2 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  color: #fff;
+  text-align: center;
 }
 
 .shopping-item {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  width: 100%;
+  align-items: center;
   padding: 12px;
+  margin: 8px 0;
   background-color: #3b3b3b;
   border-radius: 6px;
-  margin-bottom: 10px;
+  cursor: pointer;
   transition: background-color 0.3s;
 }
 
@@ -30,18 +31,14 @@
 .shopping-item label {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .shopping-item input[type="checkbox"] {
   margin-right: 10px;
 }
 
-.bought {
-  text-decoration: line-through;
-  color: #888;
-}
-
-.delete-item {
+.delete-button {
   background: none;
   border: none;
   color: #ff6666;
@@ -50,19 +47,19 @@
   transition: color 0.3s;
 }
 
-.delete-item:hover {
+.delete-button:hover {
   color: #ff3333;
 }
 
 .filter-buttons {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
   margin-top: 20px;
 }
 
 .filter-buttons button {
   padding: 8px 16px;
-  background-color: #333;
+  background-color: #444;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -71,5 +68,5 @@
 }
 
 .filter-buttons button:hover {
-  background-color: #444;
+  background-color: #555;
 }

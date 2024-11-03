@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/ShoppingList.css';
 
 
-function ShoppingList({ items, onToggle, onDelete, currentUser }) {
+function ShoppingList({ items, onToggle, onDelete }) {
   return (
     <div className="shopping-list">
       <ul>
@@ -16,8 +16,10 @@ function ShoppingList({ items, onToggle, onDelete, currentUser }) {
               />
               <span className={item.resolved ? 'resolved' : ''}>{item.name}</span>
             </label>
-            {currentUser.role === 'owner' && (
-              <button onClick={() => onDelete(index)}>Delete</button>
+            {onDelete && (
+              <button onClick={() => onDelete(index)} className="delete-item">
+                Delete
+              </button>
             )}
           </li>
         ))}

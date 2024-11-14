@@ -8,7 +8,6 @@ function MemberPage() {
     { name: 'Bread', resolved: false },
   ]);
 
-  // Функция для отметки элемента как купленного
   const handleToggleItem = (index) => {
     setItems(items.map((item, i) => 
       i === index ? { ...item, resolved: !item.resolved } : item

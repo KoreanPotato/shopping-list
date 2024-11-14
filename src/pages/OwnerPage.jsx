@@ -1,47 +1,77 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import '../styles/OwnerPage.css';
 
 function OwnerPage() {
-  const [listName, setListName] = useState('My Shopping List');
-  const [items, setItems] = useState([{ name: 'Milk', resolved: false }, { name: 'Bread', resolved: false }]);
+  const { listId } = useParams(); 
+  const [listName, setListName] = useState('');
+  
+
+  const [items, setItems] = useState({
+    Tesco: [{ name: 'Milk', resolved: false }, { name: 'Bread', resolved: false }],
+    DM: [],
+    List3: [],
+    List4: [],
+    List5: []
+  });
+  
   const [newItem, setNewItem] = useState('');
   const [filter, setFilter] = useState('all');
 
+  
+  useEffect(() => {
+    setListName(listId || 'My Shopping List');
+  }, [listId]);
+
   const handleAddItem = () => {
     if (newItem.trim()) {
-      setItems([...items, { name: newItem, resolved: false }]);
+      setItems({
+        ...items,
+        [listId]: [...(items[listId] || []), { name: newItem, resolved: false }]
+      });
       setNewItem('');
     }
   };
 
   const handleToggleItem = (index) => {
-    setItems(items.map((item, i) => (i === index ? { ...item, resolved: !item.resolved } : item)));
+    const updatedItems = items[listId].map((item, i) => 
+      i === index ? { ...item, resolved: !item.resolved } : item
+    );
+    setItems({ ...items, [listId]: updatedItems });
   };
 
   const handleDeleteItem = (index) => {
-    setItems(items.filter((_, i) => i !== index));
+    const updatedItems = items[listId].filter((_, i) => i !== index);
+    setItems({ ...items, [listId]: updatedItems });
   };
 
-  const filteredItems = items.filter(
+  const filteredItems = (items[listId] || []).filter(
     (item) => filter === 'all' || (filter === 'unresolved' && !item.resolved)
   );
 
   return (
     <div className="owner-container">
-      {/* Sidebar */}
       <div className="sidebar">
         <h2>Shopping List</h2>
-        <button className="selected">Tesco</button>
-        <button>DM</button>
-        <button>List 3</button>
-        <button>List 4</button>
-        <button>List 5</button>
+        <Link to="/list/Tesco">
+          <button className={listId === 'Tesco' ? 'selected' : ''}>Tesco</button>
+        </Link>
+        <Link to="/list/DM">
+          <button className={listId === 'DM' ? 'selected' : ''}>DM</button>
+        </Link>
+        <Link to="/list/List3">
+          <button className={listId === 'List3' ? 'selected' : ''}>List 3</button>
+        </Link>
+        <Link to="/list/List4">
+          <button className={listId === 'List4' ? 'selected' : ''}>List 4</button>
+        </Link>
+        <Link to="/list/List5">
+          <button className={listId === 'List5' ? 'selected' : ''}>List 5</button>
+        </Link>
         <button className="add-button">add list</button>
         <button className="new-member-button">new member</button>
       </div>
 
-      {/* Shopping List */}
       <div className="shopping-list">
         <h2>{listName}</h2>
         <ul>

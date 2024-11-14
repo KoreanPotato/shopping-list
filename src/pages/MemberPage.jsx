@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/MemberPage.css';
 
 function MemberPage({ lists = {}, setLists }) {
   const { listId } = useParams();
+  const navigate = useNavigate();
   const [newItem, setNewItem] = useState('');
 
   const userName = "Alice";
@@ -22,6 +23,8 @@ function MemberPage({ lists = {}, setLists }) {
         [listId]: { ...lists[listId], items: updatedItems }
       });
       setNewItem('');
+    } else {
+      console.warn("List ID or setLists function is not available.");
     }
   };
 
@@ -34,6 +37,8 @@ function MemberPage({ lists = {}, setLists }) {
         ...lists,
         [listId]: { ...lists[listId], items: updatedItems }
       });
+    } else {
+      console.warn("List ID or setLists function is not available.");
     }
   };
 
@@ -44,6 +49,9 @@ function MemberPage({ lists = {}, setLists }) {
         ...lists,
         [listId]: { ...lists[listId], members: updatedMembers }
       });
+      navigate('/member'); // Вернем пользователя на главную страницу мембера после выхода из списка
+    } else {
+      console.warn("List ID, members, or setLists function is not available.");
     }
   };
 
@@ -56,7 +64,7 @@ function MemberPage({ lists = {}, setLists }) {
             <div key={list}>
               <button 
                 className={listId === list ? 'selected' : ''} 
-                onClick={() => window.location.href = `/member/${list}`}
+                onClick={() => navigate(`/member/${list}`)}
               >
                 {list}
               </button>

@@ -14,9 +14,12 @@ function App() {
         <Header />
         <div className="content">
           <Routes>
-            {/* Используем element вместо component */}
             <Route path="/list/:listId" element={<OwnerPage />} />
             <Route path="/" element={<OwnerPage />} />
+            <Route path="/member" element={<MemberPage />} />
+            <Route path="/member/:listId" element={<MemberPage />} />
+
+            /member/:listId
           </Routes>
         </div>
         <Footer />

@@ -1,44 +1,57 @@
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import '../styles/OwnerPage.css'
+import '../styles/OwnerPage.css';
 
 function OwnerPage() {
   const { listId } = useParams();
   const [lists, setLists] = useState({
-    Tesco: [
-      { name: 'Milk', resolved: true }, 
-      { name: 'Bread', resolved: true }, 
-      { name: 'Eggs 10pc', resolved: false }, 
-      { name: 'Meat beef 3 kg', resolved: false }, 
-      { name: 'Water 5l', resolved: false }
-    ],
-
-    DM: [
-      { name: 'Soap', resolved: false }, 
-      { name: 'Brush', resolved: false },
-      { name: 'Shampoo', resolved: false }
+    Tesco: {
+      items: [
+        { name: 'Milk', resolved: true }, 
+        { name: 'Bread', resolved: true }, 
+        { name: 'Eggs 10pc', resolved: false }, 
+        { name: 'Meat beef 3 kg', resolved: false }, 
+        { name: 'Water 5l', resolved: false }
       ],
-
-    Smarty: [
-      { name: 'Phone charger'}, 
-      { name: 'Zelda nintendo'}
-    ],
+      members: []
+    },
+    DM: {
+      items: [
+        { name: 'Soap', resolved: false }, 
+        { name: 'Brush', resolved: false },
+        { name: 'Shampoo', resolved: false }
+      ],
+      members: []
+    },
+    Smarty: {
+      items: [
+        { name: 'Phone charger', resolved: false }, 
+        { name: 'Zelda nintendo', resolved: false }
+      ],
+      members: []
+    }
   });
+
   const [newListName, setNewListName] = useState('');
-  const [newItem, setNewItem] = useState(''); 
-  const [filter, setFilter] = useState('all'); 
+  const [newItem, setNewItem] = useState('');
+  const [filter, setFilter] = useState('all');
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState(false);
   const [listToDelete, setListToDelete] = useState(null);
 
-  const items = lists[listId] || [];
+  const [selectedMember, setSelectedMember] = useState('');
+  const membersList = ['Alice', 'Bob', 'Charlie', 'David'];
+
+  const items = lists[listId]?.items || [];
+  const members = lists[listId]?.members || [];
 
   const handleAddList = () => {
     if (newListName.trim() && !lists[newListName]) {
       setLists({
         ...lists,
-        [newListName]: [],
+        [newListName]: { items: [], members: [] }
       });
       setNewListName('');
       setIsAddModalOpen(false);
@@ -48,8 +61,11 @@ function OwnerPage() {
   const handleAddItem = () => {
     if (newItem.trim()) {
       const updatedItems = [...items, { name: newItem, resolved: false }];
-      setLists({ ...lists, [listId]: updatedItems });
-      setNewItem(''); 
+      setLists({
+        ...lists,
+        [listId]: { ...lists[listId], items: updatedItems }
+      });
+      setNewItem('');
     }
   };
 
@@ -57,12 +73,18 @@ function OwnerPage() {
     const updatedItems = items.map((item, i) =>
       i === index ? { ...item, resolved: !item.resolved } : item
     );
-    setLists({ ...lists, [listId]: updatedItems });
+    setLists({
+      ...lists,
+      [listId]: { ...lists[listId], items: updatedItems }
+    });
   };
 
   const handleDeleteItem = (index) => {
     const updatedItems = items.filter((_, i) => i !== index);
-    setLists({ ...lists, [listId]: updatedItems });
+    setLists({
+      ...lists,
+      [listId]: { ...lists[listId], items: updatedItems }
+    });
   };
 
   const openDeleteModal = (list) => {
@@ -77,6 +99,18 @@ function OwnerPage() {
       setLists(updatedLists);
       setListToDelete(null);
       setIsDeleteModalOpen(false);
+    }
+  };
+
+  const handleAddMember = () => {
+    if (selectedMember && !members.includes(selectedMember)) {
+      const updatedMembers = [...members, selectedMember];
+      setLists({
+        ...lists,
+        [listId]: { ...lists[listId], members: updatedMembers }
+      });
+      setSelectedMember('');
+      setIsAddMemberModalOpen(false);
     }
   };
 
@@ -135,10 +169,16 @@ function OwnerPage() {
             Add Item
           </button>
 
-          <div className="filter-buttons">
-            <button onClick={() => setFilter('all')}>Show All</button>
-            <button onClick={() => setFilter('unresolved')}>Show Unresolved</button>
-          </div>
+          <button onClick={() => setIsAddMemberModalOpen(true)} className="add-button">
+            Add Member
+          </button>
+
+          <h3>Members:</h3>
+          <ul>
+            {members.map((member, index) => (
+              <li key={index}>{member}</li>
+            ))}
+          </ul>
         </div>
       </div>
 
@@ -171,6 +211,34 @@ function OwnerPage() {
               Confirm
             </button>
             <button onClick={() => setIsDeleteModalOpen(false)} className="cancel-button">
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {isAddMemberModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Select Member to Add</h3>
+            <select
+              value={selectedMember}
+              onChange={(e) => setSelectedMember(e.target.value)}
+              className="member-select"
+            >
+              <option value="" disabled>
+                Choose a member
+              </option>
+              {membersList.map((member) => (
+                <option key={member} value={member}>
+                  {member}
+                </option>
+              ))}
+            </select>
+            <button onClick={handleAddMember} className="add-member-button">
+              Add Member
+            </button>
+            <button onClick={() => setIsAddMemberModalOpen(false)} className="cancel-button">
               Cancel
             </button>
           </div>

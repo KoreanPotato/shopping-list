@@ -122,7 +122,6 @@
   border: none;
 }
 
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -145,7 +144,17 @@
   color: #f1f1f1;
 }
 
-.add-member-button, .delete-confirm-button, .cancel-button {
+.member-select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  background-color: #333;
+  color: #f1f1f1;
+}
+
+.add-member-button, .cancel-button {
   padding: 10px;
   margin-top: 10px;
   width: 100%;
@@ -159,13 +168,7 @@
   color: white;
 }
 
-.delete-confirm-button {
-  background-color: #ff5252;
-  color: white;
-}
-
 .cancel-button {
   background-color: #777;
   color: white;
 }
-

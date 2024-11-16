@@ -1,57 +1,56 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import '../styles/MemberPage.css';
 
-function MemberPage({ lists = {}, setLists }) {
-  const { listId } = useParams();
-  const navigate = useNavigate();
+function MemberPage() {
+  const [lists, setLists] = useState({
+    Tesco: {
+      items: [
+        { name: 'Milk', resolved: false },
+        { name: 'Bread', resolved: true }
+      ]
+    },
+    DM: {
+      items: [
+        { name: 'Soap', resolved: false },
+        { name: 'Brush', resolved: false }
+      ]
+    }
+  });
+  const [currentList, setCurrentList] = useState(null);
   const [newItem, setNewItem] = useState('');
 
-  const userName = "Alice";
-
-  const memberLists = Object.keys(lists).filter(
-    (list) => lists[list]?.members?.includes(userName)
-  );
-
-  const items = lists[listId]?.items || [];
+  const handleSelectList = (listName) => {
+    setCurrentList(listName);
+  };
 
   const handleAddItem = () => {
-    if (newItem.trim() && listId && typeof setLists === 'function') {
-      const updatedItems = [...items, { name: newItem, resolved: false }];
+    if (newItem.trim() && currentList) {
+      const updatedItems = [...lists[currentList].items, { name: newItem, resolved: false }];
       setLists({
         ...lists,
-        [listId]: { ...lists[listId], items: updatedItems }
+        [currentList]: { ...lists[currentList], items: updatedItems }
       });
       setNewItem('');
-    } else {
-      console.warn("List ID or setLists function is not available.");
     }
   };
 
   const handleToggleItem = (index) => {
-    if (listId && typeof setLists === 'function') {
-      const updatedItems = items.map((item, i) =>
+    if (currentList) {
+      const updatedItems = lists[currentList].items.map((item, i) =>
         i === index ? { ...item, resolved: !item.resolved } : item
       );
       setLists({
         ...lists,
-        [listId]: { ...lists[listId], items: updatedItems }
+        [currentList]: { ...lists[currentList], items: updatedItems }
       });
-    } else {
-      console.warn("List ID or setLists function is not available.");
     }
   };
 
   const handleLeaveList = () => {
-    if (listId && lists[listId]?.members && typeof setLists === 'function') {
-      const updatedMembers = lists[listId].members.filter((member) => member !== userName);
-      setLists({
-        ...lists,
-        [listId]: { ...lists[listId], members: updatedMembers }
-      });
-      navigate('/member'); // Вернем пользователя на главную страницу мембера после выхода из списка
-    } else {
-      console.warn("List ID, members, or setLists function is not available.");
+    if (currentList) {
+      const updatedLists = { ...lists };
+      delete updatedLists[currentList];
+      setLists(updatedLists);
+      setCurrentList(null);
     }
   };
 
@@ -60,27 +59,26 @@ function MemberPage({ lists = {}, setLists }) {
       <div className="main-container">
         <div className="sidebar">
           <h2>Your Lists</h2>
-          {memberLists.map((list) => (
-            <div key={list}>
-              <button 
-                className={listId === list ? 'selected' : ''} 
-                onClick={() => navigate(`/member/${list}`)}
-              >
-                {list}
-              </button>
-            </div>
+          {Object.keys(lists).map((listName) => (
+            <button
+              key={listName}
+              onClick={() => handleSelectList(listName)}
+              className={currentList === listName ? 'selected' : ''}
+            >
+              {listName}
+            </button>
           ))}
         </div>
 
         <div className="shopping-list">
-          <h2>{listId || 'Select a List'}</h2>
-          {listId && (
+          {currentList ? (
             <>
+              <h2>{currentList}</h2>
               <button onClick={handleLeaveList} className="leave-button">
                 Leave List
               </button>
               <ul>
-                {items.map((item, index) => (
+                {lists[currentList].items.map((item, index) => (
                   <li key={index} className="shopping-item">
                     <label>
                       <input
@@ -93,18 +91,18 @@ function MemberPage({ lists = {}, setLists }) {
                   </li>
                 ))}
               </ul>
-
               <input
                 type="text"
                 value={newItem}
                 onChange={(e) => setNewItem(e.target.value)}
                 placeholder="Add new item"
-                className="owner-input"
               />
               <button onClick={handleAddItem} className="add-button">
                 Add Item
               </button>
             </>
+          ) : (
+            <h2>Select a List</h2>
           )}
         </div>
       </div>

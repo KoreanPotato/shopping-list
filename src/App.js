@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import OwnerPage from './pages/OwnerPage';
 import MemberPage from './pages/MemberPage';
@@ -8,22 +8,6 @@ import Footer from './components/footer';
 import './styles/app.css';
 
 function App() {
-  const [lists, setLists] = useState({
-    Tesco: {
-      items: [
-        { name: 'Milk', resolved: true },
-        { name: 'Bread', resolved: false }
-      ],
-      members: ['Alice', 'Bob']
-    },
-    DM: {
-      items: [
-        { name: 'Soap', resolved: false },
-        { name: 'Brush', resolved: true }
-      ],
-      members: ['Alice']
-    }
-  });
 
   return (
     

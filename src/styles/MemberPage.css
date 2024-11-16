@@ -1,13 +1,47 @@
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
 .main-container {
   display: flex;
-  width: 100%;
+  width: 80%;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar {
-  width: 200px;
+  width: 30%;
   background-color: #333;
-  padding: 20px;
   color: #fff;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+}
+
+.sidebar button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #444;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sidebar button.selected {
+  background-color: #4caf50;
 }
 
 .shopping-list {
@@ -15,29 +49,43 @@
   padding: 20px;
 }
 
-.leave-button {
-  background-color: #ff5252;
-  color: white;
-  border: none;
-  padding: 10px;
+.shopping-list h2 {
   margin-bottom: 20px;
-  cursor: pointer;
+}
+
+.shopping-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.shopping-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.shopping-list li label {
+  margin-left: 10px;
+}
+
+.leave-button {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .add-button {
-  background-color: #4a90e2;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.owner-input {
-  width: 100%;
-  padding: 10px;
+  display: inline-block;
   margin-top: 10px;
-  border: 1px solid #ccc;
+  padding: 10px 20px;
+  background-color: #2196f3;
+  color: #fff;
+  border: none;
   border-radius: 5px;
+  cursor: pointer;
 }

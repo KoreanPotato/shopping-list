@@ -42,7 +42,7 @@ function OwnerPage() {
   const [listToDelete, setListToDelete] = useState(null);
 
   const [selectedMember, setSelectedMember] = useState('');
-  const membersList = ['Alice', 'Bob', 'Charlie', 'David'];
+  const membersList = ['Alice', 'Bob', 'Charlie', 'David', 'Tomas', 'Maxim', 'Peter', 'Chloe', 'Frantisek'];
 
   const items = lists[listId]?.items || [];
   const members = lists[listId]?.members || [];

@@ -1,22 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function MemberPage() {
-  const [lists, setLists] = useState({
-    Tesco: {
-      items: [
-        { name: 'Milk', resolved: false },
-        { name: 'Bread', resolved: true }
-      ]
-    },
-    DM: {
-      items: [
-        { name: 'Soap', resolved: false },
-        { name: 'Brush', resolved: false }
-      ]
-    }
+  const [lists, setLists] = useState(() => {
+    const savedLists = localStorage.getItem('memberLists');
+    return savedLists
+      ? JSON.parse(savedLists)
+      : {
+        Tesco: {
+          items: [
+            { name: 'Milk', resolved: false },
+            { name: 'Bread', resolved: true }
+          ]
+        },
+        DM: {
+          items: [
+            { name: 'Soap', resolved: false },
+            { name: 'Brush', resolved: false }
+          ]
+        },}
   });
   const [currentList, setCurrentList] = useState(null);
   const [newItem, setNewItem] = useState('');
+  const [filter, setFilter] = useState('all'); 
+
+  useEffect(() => {
+    localStorage.setItem('memberLists', JSON.stringify(lists));
+  }, [lists]);
 
   const handleSelectList = (listName) => {
     setCurrentList(listName);
@@ -54,6 +63,16 @@ function MemberPage() {
     }
   };
 
+  
+  const getFilteredItems = () => {
+    const items = lists[currentList]?.items || [];
+    if (filter === 'all') {
+      return items;
+    } else if (filter === 'unresolved') {
+      return items.filter((item) => !item.resolved);
+    }
+  };
+
   return (
     <div className="app">
       <div className="main-container">
@@ -77,8 +96,24 @@ function MemberPage() {
               <button onClick={handleLeaveList} className="leave-button">
                 Leave List
               </button>
+
+              <div className="filter-buttons">
+                <button
+                  onClick={() => setFilter('all')}
+                  className={filter === 'all' ? 'active-filter' : ''}
+                >
+                  Show All
+                </button>
+                <button
+                  onClick={() => setFilter('unresolved')}
+                  className={filter === 'unresolved' ? 'active-filter' : ''}
+                >
+                  Show Unresolved
+                </button>
+              </div>
+
               <ul>
-                {lists[currentList].items.map((item, index) => (
+                {getFilteredItems().map((item, index) => (
                   <li key={index} className="shopping-item">
                     <label>
                       <input
